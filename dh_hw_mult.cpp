@@ -13,7 +13,7 @@ void dh_hw_mult::process_hw_mult()
   NN_DIGIT a[2], b, c, t, u;
   NN_HALF_DIGIT bHigh, bLow, cHigh, cLow;
   NN_DIGIT state = WAIT_FOR_EN;
-  
+
   for (;;) 
   {    
     switch (state)
@@ -29,7 +29,7 @@ void dh_hw_mult::process_hw_mult()
 		}
 		
 		case EXECUTE:
-		{  
+		{  		
 			// Read inputs	
 			b = in_data_1.read();
 			c = in_data_2.read();
@@ -52,7 +52,7 @@ void dh_hw_mult::process_hw_mult()
 			a[1] += HIGH_HALF(t);
 			
 	 	    // Hardware multiplication delay = 100 ns
-	        wait (100, SC_NS);
+	        //wait (100, SC_NS);
 
 			state = OUTPUT;
 			break;
