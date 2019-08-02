@@ -6,7 +6,6 @@
 
 SC_MODULE (dh_hw_mult)
 {
-  sc_in_clk clock;
   sc_in<bool> hw_mult_enable; 
   sc_in<NN_DIGIT> in_data_1;
   sc_in<NN_DIGIT> in_data_2;
@@ -18,7 +17,7 @@ SC_MODULE (dh_hw_mult)
   
   SC_CTOR (dh_hw_mult)
   {
-    SC_CTHREAD (process_hw_mult, clock.pos());
+    SC_THREAD (process_hw_mult);
     sensitive << hw_mult_enable;
   }
   

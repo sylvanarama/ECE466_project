@@ -5,7 +5,7 @@
 
 int sc_main(int argc , char *argv[])
 {
-	sc_clock Clk("myc", 2, SC_NS, 0.5);
+
 	sc_signal <bool> enable, done;
 	sc_signal <NN_DIGIT> operand1, operand2, result1, result2;
 	
@@ -22,7 +22,6 @@ int sc_main(int argc , char *argv[])
 	
 	
 	dh_hw_mult DH_HW_MULT("DH_Hardware_Multiplier");
-	DH_HW_MULT.clock(Clk);				// clock
 	DH_HW_MULT.in_data_1 (operand1);	// operand1 from software
 	DH_HW_MULT.in_data_2 (operand2);	// operand2 from software
 	DH_HW_MULT.out_data_low (result1);	// result1 to software
