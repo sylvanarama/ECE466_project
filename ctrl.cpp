@@ -68,8 +68,7 @@ void ctrl::state_transition() {
 void ctrl::state_output() {
   // default: all outputs at zero
   a0_mux_sel.write(SC_LOGIC_0); 
-  a1_mux_sel.set_bit(0,0);
-  a1_mux_sel.set_bit(1,0);
+  a1_mux_sel.write(0);
   t_mux_sel.write(SC_LOGIC_0); 
   u_mux_sel.write(SC_LOGIC_0);
   
@@ -100,7 +99,7 @@ void ctrl::state_output() {
         break;
     
     case BR1_LT:
-    a1_mux_sel.set_bit(0,1);
+    a1_mux_sel.write(1);
     a1_rld.write(SC_LOGIC_1);  
         break;
     
@@ -112,13 +111,12 @@ void ctrl::state_output() {
         break;
     
     case BR2_LT:
-    a1_mux_sel.set_bit(1,0);
+    a1_mux_sel.write(2);
     a1_rld.write(SC_LOGIC_1);  
         break;
     
     case OUTPUT:
-    a1_mux_sel.set_bit(1,1); 
-    A1_mux_sel.set_bit(1,1); 
+    a1_mux_sel.write(3);  
     a1_rld.write(SC_LOGIC_1);
         break;
     

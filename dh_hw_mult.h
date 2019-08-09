@@ -21,7 +21,7 @@ SC_MODULE (dh_hw_mult)
   sc_out<bool> hw_mult_done;
   
   // Signals
-  sc_signal< sc_lv<2> > a1_mux_sel;
+  sc_signal< <NN_DIGIT> a1_mux_sel;
   sc_signal<sc_logic> a0_mux_sel, t_mux_sel, u_mux_sel;
   sc_signal<sc_logic> b_rld, c_rld;
   sc_signal<sc_logic> a0_rld, a1_rld, t_rld, u_rld;

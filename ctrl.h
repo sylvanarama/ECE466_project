@@ -10,6 +10,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 #include "systemc.h"
+#include "digit.h"
 
 enum ctrl_state {LOAD, MULT, BR1, BR1_LT, BR2, BR2_LT, OUTPUT, END};  
     
@@ -21,7 +22,7 @@ SC_MODULE(ctrl) {
     // Ports
     //
     
-    sc_out< sc_lv<2> > a1_mux_sel;
+    sc_out<NN_DIGIT> a1_mux_sel;
     sc_out<sc_logic> a0_mux_sel, t_mux_sel, u_mux_sel;
     sc_out<sc_logic> b_rld, c_rld;
     sc_out<sc_logic> a0_rld, a1_rld, t_rld, u_rld, tmp_rld;

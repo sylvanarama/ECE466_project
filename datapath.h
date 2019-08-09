@@ -11,6 +11,7 @@
 #define DATAPATH_H
 #include "systemc.h"
 #include "modules.h"
+#include "digit.h"
 
 ///////////////////////////
 // Data Path
@@ -19,12 +20,12 @@ SC_MODULE(datapath) {
     //
     // Ports
     //
-    sc_in< sc_lv<2> > a1_mux_sel;
+    sc_in<NN_DIGIT> a1_mux_sel;
     sc_in<sc_logic> a0_mux_sel, t_mux_sel, u_mux_sel;
     sc_in<sc_logic> b_rld, c_rld;
     sc_in<sc_logic> a0_rld, a1_rld, t_rld, u_rld;
     
-    sc_out<sc_logic> C1, C2; // comparator outputs
+    sc_out<sc_logic> LT1, LT2; // comparator outputs
     
     sc_in<NN_DIGIT> B_IN, C_IN;
     sc_out<NN_DIGIT> A0_OUT, A1_OUT;
@@ -207,7 +208,7 @@ SC_MODULE(datapath) {
 
         add4.A(0x1);
         add4.B(MUX1);
-        add4OUT(P4);
+        add4.OUT(P4);
 
         add5.A(MUX2);
         add5.B(N5);

@@ -108,7 +108,7 @@ SC_MODULE(mux4) {
     //
     // Ports
     //
-    sc_in< sc_lv<2> > sel;
+    sc_in<NN_DIGIT> sel;
     sc_in<NN_DIGIT> A; 
     sc_in<NN_DIGIT> B;	
     sc_in<NN_DIGIT> C;
@@ -117,17 +117,17 @@ SC_MODULE(mux4) {
 
     void mux4_proc() 
     {   
-        if (sel.to_uint() == 0) 
+        if (sel.read() == 0) 
             OUT.write(A.read());
-        else if (sel.to_uint() == 1) 
+        else if (sel.read() == 1) 
             OUT.write(B.read());
-        else if (sel.to_uint() == 2) 
+        else if (sel.read() == 2) 
             OUT.write(C.read());
         else 
             OUT.write(D.read());
     }
     
-    SC_CTOR(mux2) {
+    SC_CTOR(mux4) {
         SC_METHOD(mux4_proc);
         sensitive << sel << A << B << C << D;
     }
@@ -171,7 +171,7 @@ SC_MODULE(comp) {
     //sc_out<sc_logic> EQ, GT, LT;
     sc_out<sc_logic> LT;
 
-    void comp::comp_proc() 
+    void comp_proc() 
     {
         
         // Default
@@ -201,7 +201,7 @@ SC_MODULE(shift) {
     sc_in<NN_DIGIT> IN; 
     sc_in<bool> LR;
     sc_out<NN_DIGIT> OUT;
-    sc_int shiftval;
+    sc_int<NN_DIGIT> shiftval;
 
     void shift_proc()
     {
@@ -212,8 +212,8 @@ SC_MODULE(shift) {
             
     }
     
-    SC_CTOR(add) {
-        SC_METHOD(add_proc);
+    SC_CTOR(shift) {
+        SC_METHOD(shift_proc);
         sensitive << IN;
         shiftval = 16;
     }

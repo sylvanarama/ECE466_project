@@ -65,8 +65,11 @@ void dh_hw_mult::process_hw_mult()
 		case OUTPUT:
 		{
 			// Write outputs
-			out_data_low.write(a[0]);
-			out_data_high.write(a[1]);
+			//out_data_low.write(a[0]);
+			//out_data_high.write(a[1]);
+			
+			out_data_low.write(DP.A0_OUT.read());
+			out_data_high.write(DP.A1_OUT.read());
 
 			hw_mult_done.write(true);
 			state = FINISH;
