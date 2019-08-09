@@ -1,6 +1,7 @@
 #include "systemc.h"
 #include "digit.h"
 #include "dh_hw_mult.h"
+#include "modules.h"
 
 #define WAIT_FOR_EN 1
 #define EXECUTE 2
@@ -30,6 +31,7 @@ void dh_hw_mult::process_hw_mult()
 		
 		case EXECUTE:
 		{  		
+			/*
 			// Read inputs	
 			b = in_data_1.read();
 			c = in_data_2.read();
@@ -53,8 +55,10 @@ void dh_hw_mult::process_hw_mult()
 			
 	 	    // Hardware multiplication delay = 100 ns
 	        //wait (100, SC_NS);
+	        */
 
-			state = OUTPUT;
+			if(CL.state.read() == END)
+			    state = OUTPUT;
 			break;
 		}
 
