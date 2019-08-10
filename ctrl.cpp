@@ -10,16 +10,21 @@
 #include "ctrl.h"
 #include "modules.h"
 
-void ctrl::state_reg() {
-  while(1) {
-    if (reset.read() == SC_LOGIC_1) state.write(LOAD);
-    else state.write(next_state.read());
-    wait();
-  }
+void ctrl::state_reg() 
+{
+    printf("CL: STATE REG\n");
+    while(1) 
+    {
+        // wait while handshaking FSM not in EXECUTE state
+        if(state.read() == WAIT) 
+            state.write(WAIT);   
+        else state.write(next_state.read());  
+        wait();
+    }
 }
 
 void ctrl::state_transition() {
-
+  // printf("CL: STATE TRANSITION\n");
   // default: self-loop
   next_state.write(state.read());
   
@@ -44,19 +49,19 @@ void ctrl::state_transition() {
         
     case BR2:
         if(LT2.read() == SC_LOGIC_1) next_state.write(BR2_LT);
-	    else if(GTE.read() == SC_LOGIC_1) next_state.write(DONE);
+	    else next_state.write(WRITE);
         break;
 
     case BR2_LT:
-        next_state.write(DONE);
+        next_state.write(WRITE);
         break;
         
-    case OUTPUT:
-        next_state.write(END);
+    case WRITE:
+        next_state.write(WAIT);      
         break;
     
-    case END:
-        next_state.write(END);
+    case WAIT:
+        next_state.write(LOAD);
         break;
         
     default:
@@ -82,11 +87,13 @@ void ctrl::state_output() {
   switch (state.read()) {
 
     case LOAD:
+    printf("CL: LOAD\n");
     b_rld.write(SC_LOGIC_1);
     c_rld.write(SC_LOGIC_1);	    
         break;
 
     case MULT:
+    printf("CL: MULT\n");
     a0_rld.write(SC_LOGIC_1);
     a1_rld.write(SC_LOGIC_1);
     t_rld.write (SC_LOGIC_1);
@@ -94,16 +101,19 @@ void ctrl::state_output() {
         break;
 
     case BR1:
+    printf("CL: BR1\n");
     t_mux_sel.write(SC_LOGIC_1);
     t_rld.write(SC_LOGIC_1);
         break;
     
     case BR1_LT:
+    printf("CL: BR1_LT\n");
     a1_mux_sel.write(1);
     a1_rld.write(SC_LOGIC_1);  
         break;
     
     case BR2:
+    printf("CL: BR2\n");
     u_mux_sel.write(SC_LOGIC_1); 
     u_rld.write (SC_LOGIC_1);
     a0_mux_sel.write(SC_LOGIC_1);
@@ -111,16 +121,19 @@ void ctrl::state_output() {
         break;
     
     case BR2_LT:
+    printf("CL: BR2_LT\n");
     a1_mux_sel.write(2);
     a1_rld.write(SC_LOGIC_1);  
         break;
     
-    case OUTPUT:
+    case WRITE:
+    printf("CL: OUTPUT\n");
     a1_mux_sel.write(3);  
     a1_rld.write(SC_LOGIC_1);
         break;
     
-    case END:
+    case WAIT:
+    printf("CL: WAIT\n");
         break;
 	
     default:

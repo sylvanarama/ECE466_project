@@ -34,6 +34,32 @@ SC_MODULE(add) {
     }
 };
 
+// Adds a constant to input A
+SC_MODULE(add_const) {
+    //
+    // Ports
+    //
+    sc_in<NN_DIGIT> A; 
+    sc_out<NN_DIGIT> OUT;
+    
+    NN_DIGIT k;
+
+    void add_const_proc()
+    {
+        OUT.write(A.read() + k);
+    }
+    
+    SC_HAS_PROCESS(add_const);
+    
+    add_const(sc_module_name nm, NN_DIGIT add_val)
+    :sc_module(nm)
+    {
+        SC_METHOD(add_const_proc);
+        sensitive << A;
+        k = add_val;
+    }
+};
+
 ////////////////////////
 // and2 - takes the bitwise AND of A and B
 ////////////////////////
@@ -53,6 +79,32 @@ SC_MODULE(and2) {
     SC_CTOR(and2) {
         SC_METHOD(and2_proc);
         sensitive << A << B;
+    }
+};
+
+// Bitwise AND with a constant value
+SC_MODULE(and_const) {
+    //
+    // Ports
+    //
+    sc_in<NN_DIGIT> A; 
+    sc_out<NN_DIGIT> OUT;
+    
+    NN_DIGIT k;
+
+    void and_const_proc()
+    {
+        OUT.write(A.read() & k);
+    }
+    
+    SC_HAS_PROCESS(and_const);
+    
+    and_const(sc_module_name nm, NN_DIGIT and_val)
+    :sc_module(nm)
+    {
+        SC_METHOD(and_const_proc);
+        sensitive << A;
+        k = and_val;
     }
 };
 
@@ -140,7 +192,8 @@ SC_MODULE(reg) {
     //
     // Ports
     //
-    sc_in<sc_logic> reset, load;
+    //sc_in<sc_logic> load, reset;
+    sc_in<sc_logic> load;
     sc_in_clk clock;
     sc_in<NN_DIGIT> IN; 
     sc_out<NN_DIGIT> OUT;	
@@ -148,8 +201,9 @@ SC_MODULE(reg) {
     void reg_proc() 
     {  
         while (1) {
-            if (reset.read() == SC_LOGIC_1) OUT.write(0);
-            else if (load.read() == SC_LOGIC_1) OUT.write(IN.read());
+            //if (reset.read() == SC_LOGIC_1) OUT.write(0);
+            //else if (load.read() == SC_LOGIC_1) OUT.write(IN.read());
+            if (load.read() == SC_LOGIC_1) OUT.write(IN.read());
 	    wait();
         }
     }
@@ -192,30 +246,41 @@ SC_MODULE(comp) {
 };
 
 ////////////////////////
-// add - adds number B to number A
+// Shifter: Shift 16 bits left or right
 ////////////////////////
-SC_MODULE(shift) {
+SC_MODULE(shiftL) {
     //
     // Ports
     //
     sc_in<NN_DIGIT> IN; 
-    sc_in<bool> LR;
     sc_out<NN_DIGIT> OUT;
-    sc_int<NN_DIGIT> shiftval;
 
-    void shift_proc()
+    void shiftL_proc()
     {
-        if(LR)
-            OUT.write(IN.read >> shiftval);
-        else
-            OUT.write(IN.read << shiftval);
-            
+        OUT.write(IN.read() << 16);          
     }
     
-    SC_CTOR(shift) {
-        SC_METHOD(shift_proc);
+    SC_CTOR(shiftL) {
+        SC_METHOD(shiftL_proc);
         sensitive << IN;
-        shiftval = 16;
+    }
+};
+
+SC_MODULE(shiftR) {
+    //
+    // Ports
+    //
+    sc_in<NN_DIGIT> IN; 
+    sc_out<NN_DIGIT> OUT;
+
+    void shiftR_proc()
+    {
+        OUT.write(IN.read() >> 16);          
+    }
+    
+    SC_CTOR(shiftR) {
+        SC_METHOD(shiftR_proc);
+        sensitive << IN;
     }
 };
 

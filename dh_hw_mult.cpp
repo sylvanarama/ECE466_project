@@ -3,17 +3,11 @@
 #include "dh_hw_mult.h"
 #include "modules.h"
 
-#define WAIT_FOR_EN 1
-#define EXECUTE 2
-#define OUTPUT 3
-#define FINISH 4
 
 void dh_hw_mult::process_hw_mult()
 {
-	
-  NN_DIGIT a[2], b, c, t, u;
-  NN_HALF_DIGIT bHigh, bLow, cHigh, cLow;
-  NN_DIGIT state = WAIT_FOR_EN;
+  printf("process hw mult");
+  state.write(WAIT_FOR_EN);
 
   for (;;) 
   {    
@@ -57,8 +51,12 @@ void dh_hw_mult::process_hw_mult()
 	        //wait (100, SC_NS);
 	        */
 
-			if(CL.state.read() == END)
-			    state = OUTPUT;
+			while(CL.state.read() != WAIT)
+			{
+			    wait();
+			}
+			    
+			state = OUTPUT;
 			break;
 		}
 

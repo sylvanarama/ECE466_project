@@ -12,8 +12,8 @@
 #include "systemc.h"
 #include "digit.h"
 
-enum ctrl_state {LOAD, MULT, BR1, BR1_LT, BR2, BR2_LT, OUTPUT, END};  
-    
+enum ctrl_state {LOAD, MULT, BR1, BR1_LT, BR2, BR2_LT, WRITE, WAIT};  
+   
 ///////////////////////////
 // Controller
 ///////////////////////////
@@ -25,10 +25,10 @@ SC_MODULE(ctrl) {
     sc_out<NN_DIGIT> a1_mux_sel;
     sc_out<sc_logic> a0_mux_sel, t_mux_sel, u_mux_sel;
     sc_out<sc_logic> b_rld, c_rld;
-    sc_out<sc_logic> a0_rld, a1_rld, t_rld, u_rld, tmp_rld;
+    sc_out<sc_logic> a0_rld, a1_rld, t_rld, u_rld;
 	
-    sc_in<sc_logic> reset;
-    sc_in<sc_logic> LT1, LT2;
+	sc_in<sc_logic> LT1, LT2;
+    sc_in<bool> hs_exe;
     sc_in_clk clock;
     
     //
@@ -45,11 +45,13 @@ SC_MODULE(ctrl) {
    
     
     SC_CTOR(ctrl) { 
+    printf("ctrl ctor\n");
 	SC_METHOD(state_transition);
 	sensitive << state << LT1 << LT2;
 	SC_METHOD(state_output);
 	sensitive << state;	
 	SC_CTHREAD(state_reg, clock.pos());
+	sensitive << hs_exe;
     }
 };
 

@@ -362,6 +362,7 @@ NN_DIGIT b,
 NN_DIGIT c
 )
 {  
+   printf("NN_DigitMult\n");
     out_data_1.write(b);
     out_data_2.write(c);
       
