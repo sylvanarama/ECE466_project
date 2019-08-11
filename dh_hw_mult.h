@@ -22,13 +22,14 @@ SC_MODULE (dh_hw_mult)
   sc_out<bool> hw_mult_done;
   
   // Signals
-  //sc_signal<hs_state> hs_state;
-  //sc_signal<ctrl_state> exe_state;
   sc_signal<NN_DIGIT> a1_mux_sel;
   sc_signal<sc_logic> a0_mux_sel, t_mux_sel, u_mux_sel;
   sc_signal<sc_logic> b_rld, c_rld;
   sc_signal<sc_logic> a0_rld, a1_rld, t_rld, u_rld;
   sc_signal<sc_logic> LT1, LT2;
+  
+  sc_signal<NN_DIGIT> a0, a1, b, c;
+  
   
   // Internal variables
   hs_fsm_state hs_state;
@@ -55,10 +56,10 @@ SC_MODULE (dh_hw_mult)
       DP.t_rld(t_rld);
       DP.u_rld(u_rld);
       
-      DP.B_IN(in_data_1);
-      DP.C_IN(in_data_2);
-      DP.A0_OUT(out_data_low);
-      DP.A1_OUT(out_data_high);
+      DP.B_IN(b);
+      DP.C_IN(c);
+      DP.A0_OUT(a0);
+      DP.A1_OUT(a1);
       
       DP.LT1(LT1);
       DP.LT2(LT2);
