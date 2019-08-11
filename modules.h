@@ -34,32 +34,6 @@ SC_MODULE(add) {
     }
 };
 
-// Adds a constant to input A
-SC_MODULE(add_const) {
-    //
-    // Ports
-    //
-    sc_in<NN_DIGIT> A; 
-    sc_out<NN_DIGIT> OUT;
-    
-    NN_DIGIT k;
-
-    void add_const_proc()
-    {
-        OUT.write(A.read() + k);
-    }
-    
-    SC_HAS_PROCESS(add_const);
-    
-    add_const(sc_module_name nm, NN_DIGIT add_val)
-    :sc_module(nm)
-    {
-        SC_METHOD(add_const_proc);
-        sensitive << A;
-        k = add_val;
-    }
-};
-
 ////////////////////////
 // and2 - takes the bitwise AND of A and B
 ////////////////////////
@@ -79,32 +53,6 @@ SC_MODULE(and2) {
     SC_CTOR(and2) {
         SC_METHOD(and2_proc);
         sensitive << A << B;
-    }
-};
-
-// Bitwise AND with a constant value
-SC_MODULE(and_const) {
-    //
-    // Ports
-    //
-    sc_in<NN_DIGIT> A; 
-    sc_out<NN_DIGIT> OUT;
-    
-    NN_DIGIT k;
-
-    void and_const_proc()
-    {
-        OUT.write(A.read() & k);
-    }
-    
-    SC_HAS_PROCESS(and_const);
-    
-    and_const(sc_module_name nm, NN_DIGIT and_val)
-    :sc_module(nm)
-    {
-        SC_METHOD(and_const_proc);
-        sensitive << A;
-        k = and_val;
     }
 };
 
@@ -150,38 +98,6 @@ SC_MODULE(mux2) {
     SC_CTOR(mux2) {
         SC_METHOD(mux2_proc);
         sensitive << sel << A << B;
-    }
-};
-
-////////////////////////
-// mux4 - 4:1 multiplexer
-////////////////////////
-SC_MODULE(mux4) {
-    //
-    // Ports
-    //
-    sc_in<NN_DIGIT> sel;
-    sc_in<NN_DIGIT> A; 
-    sc_in<NN_DIGIT> B;	
-    sc_in<NN_DIGIT> C;
-    sc_in<NN_DIGIT> D;
-    sc_out<NN_DIGIT> OUT;
-
-    void mux4_proc() 
-    {   
-        if (sel.read() == 0) 
-            OUT.write(A.read());
-        else if (sel.read() == 1) 
-            OUT.write(B.read());
-        else if (sel.read() == 2) 
-            OUT.write(C.read());
-        else 
-            OUT.write(D.read());
-    }
-    
-    SC_CTOR(mux4) {
-        SC_METHOD(mux4_proc);
-        sensitive << sel << A << B << C << D;
     }
 };
 
@@ -245,42 +161,37 @@ SC_MODULE(comp) {
     }
 };
 
-////////////////////////
-// Shifter: Shift 16 bits left or right
-////////////////////////
-SC_MODULE(shiftL) {
+
+// Shift a value by K bits left or right
+// k:  # bits to shift
+// LR: 0 for <<, 1 for >>
+SC_MODULE(shift) {
     //
     // Ports
     //
     sc_in<NN_DIGIT> IN; 
     sc_out<NN_DIGIT> OUT;
+    
+    sc_logic LR;
+    NN_DIGIT k;
 
-    void shiftL_proc()
+    void shift_proc()
     {
-        OUT.write(IN.read() << 16);          
+        if(LR == SC_LOGIC_1)
+            OUT.write(IN.read() >> k);
+        else
+            OUT.write(IN.read() << k);
     }
     
-    SC_CTOR(shiftL) {
-        SC_METHOD(shiftL_proc);
-        sensitive << IN;
-    }
-};
-
-SC_MODULE(shiftR) {
-    //
-    // Ports
-    //
-    sc_in<NN_DIGIT> IN; 
-    sc_out<NN_DIGIT> OUT;
-
-    void shiftR_proc()
-    {
-        OUT.write(IN.read() >> 16);          
-    }
+    SC_HAS_PROCESS(shift);
     
-    SC_CTOR(shiftR) {
-        SC_METHOD(shiftR_proc);
+    shift(sc_module_name nm, sc_logic dir, NN_DIGIT num_bits)
+    :sc_module(nm)
+    {
+        SC_METHOD(shift_proc);
         sensitive << IN;
+        k = num_bits;
+        LR = dir;
     }
 };
 

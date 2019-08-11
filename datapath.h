@@ -21,11 +21,10 @@ SC_MODULE(datapath) {
     // Ports
     //
     sc_in<sc_logic> b_rld, c_rld;
-    sc_in<sc_logic> a0_rld, a1_rld;    
-    
+    sc_in<sc_logic> a0_rld, a1_rld;      
     sc_in<NN_DIGIT> B_IN, C_IN;
+    
     sc_out<NN_DIGIT> A0_OUT, A1_OUT;
-
     sc_in_clk clock;
 
     //
@@ -38,6 +37,7 @@ SC_MODULE(datapath) {
     sc_signal<NN_DIGIT> P1, P2, P3, P4, P5; // adder outputs 
     sc_signal<NN_DIGIT> MUX1, MUX2;         // mux outputs   
     sc_signal<sc_logic> LT1, LT2;           // comparator outputs 
+    sc_signal<NN_DIGIT> k1, k2, k3;
         
     //
     // Instances
@@ -45,21 +45,20 @@ SC_MODULE(datapath) {
     reg     a0reg, a1reg, breg, creg;    
     mux2    muxbr1, muxbr2; 
 
-    shiftR    shift1, shift2, shift4;
-    shiftL    shift3;
-    and_const n1, n2, n3, n4, n5; 
+    shift     shift1, shift2, shift3, shift4;
+    and2      n1, n2, n3, n4, n5; 
     mult      mult1, mult2, mult3, mult4;
-    add       add1, add3, add5;
-    add_const add2, add4;
+    add       add1, add2, add3, add4, add5;
     comp      comp1, comp2;
     
     SC_CTOR(datapath):
     a0reg("a0reg"), a1reg("a1reg"), breg("breg"), creg("creg"),  
     muxbr1("mux1"), muxbr2("mux2"),	
-	shift1("shift1"), shift2("shift2"), shift3("shift3"), shift4("shift4"),
-	n1("n1", 0xffff), n2("n2", 0xffff), n3("n3", 0xffff), n4("n4", 0xffff), n5("n5", 0xffff),
+	shift1("shift1", SC_LOGIC_1, 16), shift2("shift2", SC_LOGIC_1, 16), 
+	shift3("shift3", SC_LOGIC_0, 16), shift4("shift4", SC_LOGIC_1, 16),
+	n1("n1"), n2("n2"), n3("n3"), n4("n4"), n5("n5"),
 	mult1("mult1"), mult2("mult2"), mult3("mult3"), mult4("mult4"),
-	add1("add1"), add2("add2", 0x10000), add3("add3"), add4("add4", 1), add5("add5"),
+	add1("add1"), add2("add2"), add3("add3"), add4("add4"), add5("add5"),
 	comp1("comp1"), comp2("comp2"){ 
 	
  	//
@@ -108,18 +107,23 @@ SC_MODULE(datapath) {
         shift4.OUT(S4);
 
         n1.A(S1);
+        n1.B(k1);
         n1.OUT(N1);
         
         n2.A(b);
+        n2.B(k1);
         n2.OUT(N2);
         
         n3.A(S2);
+        n3.B(k1);
         n3.OUT(N3);
         
         n4.A(c);
+        n4.B(k1);
         n4.OUT(N4);
         
         n5.A(S4);
+        n5.B(k1);
         n5.OUT(N5);
         
         mult1.A(N1);
@@ -143,6 +147,7 @@ SC_MODULE(datapath) {
         add1.OUT(P1);
 
         add2.A(M1);
+        add2.B(k2);
         add2.OUT(P2);
 
         add3.A(M2);
@@ -150,6 +155,7 @@ SC_MODULE(datapath) {
         add3.OUT(P3);
 
         add4.A(MUX1);
+        add4.B(k3);
         add4.OUT(P4);
 
         add5.A(MUX2);
@@ -163,6 +169,10 @@ SC_MODULE(datapath) {
         comp2.A(P3);
         comp2.B(S3);
         comp2.LT(LT2);
+        
+        k1.write(MAX_NN_HALF_DIGIT);
+        k2.write(0x10000);
+        k3.write(0x1);
 	
     }
 };
