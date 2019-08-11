@@ -69,7 +69,6 @@ SC_MODULE(datapath) {
 	add1("add1"), add2("add2", 0x10000), add3("add3"), add4("add4", 1), add5("add5"),
 	comp1("comp1"), comp2("comp2"){ 
 	
-	printf("datapath ctor\n");
  	//
 	// Interconnections
 	//

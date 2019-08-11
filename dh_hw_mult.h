@@ -42,7 +42,6 @@ SC_MODULE (dh_hw_mult)
   
   SC_CTOR (dh_hw_mult): DP("DATAPATH")
   {   
-      printf("hw mult ctor start\n");
       // Datapath connections
       DP.a0_mux_sel(a0_mux_sel);
       DP.a1_mux_sel(a1_mux_sel);
@@ -71,7 +70,6 @@ SC_MODULE (dh_hw_mult)
     
       SC_CTHREAD (process_hw_mult, clock.pos());
       sensitive << hw_mult_enable;
-      printf("hw mult ctor end \n");
   }
   
 };
