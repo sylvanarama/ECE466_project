@@ -362,7 +362,11 @@ NN_DIGIT b,
 NN_DIGIT c
 )
 {  
-   printf("NN_DigitMult\n");
+   // check operands
+    if (cnt > 5) sc_stop(); 
+    cout << "Call: " << ++cnt << endl;
+    cout << "Inputs: " << std::hex << b << ", " << c << std::dec << endl;
+
     out_data_1.write(b);
     out_data_2.write(c);
       
@@ -382,6 +386,9 @@ NN_DIGIT c
     {
         wait();
     }
+    
+    // check results
+    cout << "Outputs: " << std::hex << a[1] << ", " << a[0] << std::dec << endl;
           
 }
 

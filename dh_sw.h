@@ -255,11 +255,15 @@ SC_MODULE (dh_sw)
   sc_out<NN_DIGIT> out_data_1;
   sc_out<NN_DIGIT> out_data_2;
   sc_out<bool> hw_mult_enable;
+  
+  int cnt;
 
   void process_sw();
   
   SC_CTOR (dh_sw) 
   {
+    cnt = 0;
+    
     SC_THREAD (process_sw);
     sensitive << hw_mult_done;
 //    dont_initialize();

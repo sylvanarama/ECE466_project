@@ -1,0 +1,100 @@
+Call: 1
+Inputs: 1, 80000000
+Outputs: 0, 80000000
+Call: 2
+Inputs: 420d9b9f, 80000000
+Outputs: 2106cdcf, 80000000
+Call: 3
+Inputs: 44648a83, 80000000
+Outputs: 22324541, 80000000
+Call: 4
+Inputs: 2d985c58, c0000000
+Outputs: 22324542, 0
+Call: 5
+Inputs: 1b5b6a9b, a0000000
+Outputs: 111922a0, e0000000
+Call: 6
+Inputs: 138a70b8, e0000000
+Outputs: 111922a1, 0
+Call: 7
+Inputs: c6f5f00, b0000000
+Outputs: 88c9150, 0
+Call: 8
+Inputs: 2, 2
+Outputs: 0, 4
+Call: 9
+Inputs: 4, 2
+Outputs: 0, 8
+Call: 10
+Inputs: 1, 1
+Outputs: 0, 1
+Call: 11
+Inputs: 1, 1
+Outputs: 0, 1
+Call: 12
+Inputs: 1, 4
+Outputs: 0, 4
+Call: 13
+Inputs: 4, 4
+Outputs: 0, 10
+Call: 14
+Inputs: 10, 10
+Outputs: 0, 100
+Call: 15
+Inputs: 100, 100
+Outputs: 0, 10000
+Call: 16
+Inputs: 10000, 10000
+Outputs: 1, 0
+Call: 17
+Inputs: 1, 88c91509
+Outputs: 0, 88c91509
+Call: 18
+Inputs: 7736eaf7, 4
+Outputs: 1, dcdbabdc
+Call: 19
+Inputs: 3, 88c91509
+Outputs: 1, 9a5b3f1b
+Call: 20
+Inputs: 42806cc1, 42806cc1
+Outputs: 11467880, 73336981
+Call: 21
+Inputs: 2054d8e5, 88c91509
+Outputs: 11467880, c93690d
+Call: 22
+Inputs: 66a00074, 66a00074
+Outputs: 2923e45d, 1003490
+Call: 23
+Inputs: 4cfee576, 88c91509
+Outputs: 2923e45c, 776ebf26
+Call: 24
+Inputs: c86061, c86061
+Outputs: 9cd6, bbd8e4c1
+Call: 25
+Inputs: 12587, 88c91509
+Outputs: 9cd6, 471d64bf
+Call: 26
+Inputs: 74bb8002, 74bb8002
+Outputs: 353a7556, 12ee0004
+Call: 27
+Inputs: 639e832f, 88c91509
+Outputs: 353a7555, 793c77a7
+Call: 28
+Inputs: 10e87354, 8
+Outputs: 0, 87439aa0
+Call: 29
+Inputs: 87439aa0, 87439aa0
+Outputs: 47785eef, d24e400
+Call: 30
+Inputs: 85c27532, 88c91509
+Outputs: 47785eee, 3bb538c2
+Call: 31
+Inputs: 48a69635, 48a69635
+Outputs: 149e20e4, f4de26f9
+Call: 32
+Inputs: 26963f89, 88c91509
+Outputs: 149e20e4, 590f78d1
+Call: 33
+Inputs: 1305991f, 1305991f
+
+Info: /OSCI/SystemC: Simulation stopped by user.

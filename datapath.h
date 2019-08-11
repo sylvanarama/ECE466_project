@@ -40,7 +40,7 @@ SC_MODULE(datapath) {
     sc_signal<NN_DIGIT> S1, S2, S3, S4;     // shifter output
     sc_signal<NN_DIGIT> N1, N2, N3, N4, N5; // AND gate outputs
     sc_signal<NN_DIGIT> M1, M2, M3, M4;     // multiplier outputs
-    sc_signal<NN_DIGIT> P1, P2, P4;         // adder outputs (P3 = A0_OUT)
+    sc_signal<NN_DIGIT> P1, P2, P3, P4, P5; // adder outputs 
     sc_signal<NN_DIGIT> MUX1, MUX2;         // mux outputs    
         
     //
@@ -77,13 +77,13 @@ SC_MODULE(datapath) {
         //a0reg.reset(reset);
         a0reg.load(a0_rld);
         a0reg.IN(a0_n);
-        a0reg.OUT(a0);  
+        a0reg.OUT(A0_OUT);  
         
         a1reg.clock(clock);
         //a1reg.reset(reset);
         a1reg.load(a1_rld);
         a1reg.IN(a1_n);
-        a1reg.OUT(a1);                  
+        a1reg.OUT(A1_OUT);                  
         
         breg.clock(clock);
         //breg.reset(reset);
@@ -110,14 +110,14 @@ SC_MODULE(datapath) {
         ureg.OUT(u);   
         
         a0mux.A(M2);
-        a0mux.B(A0_OUT);
+        a0mux.B(P3);
         a0mux.OUT(a0_n);
         a0mux.sel(a0_mux_sel);
         
         a1mux.A(M1);
         a1mux.B(MUX1);
         a1mux.C(MUX2);
-        a1mux.D(A1_OUT);
+        a1mux.D(P5);
         a1mux.OUT(a1_n);
         a1mux.sel(a1_mux_sel);
             
@@ -193,20 +193,20 @@ SC_MODULE(datapath) {
 
         add3.A(M2);
         add3.B(S3);
-        add3.OUT(A0_OUT);
+        add3.OUT(P3);
 
         add4.A(MUX1);
         add4.OUT(P4);
 
         add5.A(MUX2);
         add5.B(N5);
-        add5.OUT(A1_OUT);
+        add5.OUT(P5);
 		
         comp1.A(P1);
         comp1.B(M4);
         comp1.LT(LT1);
         
-        comp2.A(A0_OUT);
+        comp2.A(P3);
         comp2.B(S3);
         comp2.LT(LT2);
 	
