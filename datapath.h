@@ -20,35 +20,30 @@ SC_MODULE(datapath) {
     //
     // Ports
     //
-    sc_in<NN_DIGIT> a1_mux_sel;
-    sc_in<sc_logic> a0_mux_sel, t_mux_sel, u_mux_sel;
     sc_in<sc_logic> b_rld, c_rld;
-    sc_in<sc_logic> a0_rld, a1_rld, t_rld, u_rld;
-    
-    sc_out<sc_logic> LT1, LT2; // comparator outputs
+    sc_in<sc_logic> a0_rld, a1_rld;    
     
     sc_in<NN_DIGIT> B_IN, C_IN;
     sc_out<NN_DIGIT> A0_OUT, A1_OUT;
 
-    //sc_in<sc_logic> reset;
     sc_in_clk clock;
 
     //
     // Signals
     //
-    sc_signal<NN_DIGIT> b, c, a0, a0_n, a1, a1_n, t, t_n, u, u_n; // variables
+    sc_signal<NN_DIGIT> b, c, a0, a0_n, a1, a1_n; // variables
     sc_signal<NN_DIGIT> S1, S2, S3, S4;     // shifter output
     sc_signal<NN_DIGIT> N1, N2, N3, N4, N5; // AND gate outputs
     sc_signal<NN_DIGIT> M1, M2, M3, M4;     // multiplier outputs
     sc_signal<NN_DIGIT> P1, P2, P3, P4, P5; // adder outputs 
-    sc_signal<NN_DIGIT> MUX1, MUX2;         // mux outputs    
+    sc_signal<NN_DIGIT> MUX1, MUX2;         // mux outputs   
+    sc_signal<sc_logic> LT1, LT2;           // comparator outputs 
         
     //
     // Instances
     //
-    reg     a0reg, a1reg, breg, creg, treg, ureg;    
-    mux4    a1mux;
-    mux2    a0mux, tmux, umux, muxbr1, muxbr2; 
+    reg     a0reg, a1reg, breg, creg;    
+    mux2    muxbr1, muxbr2; 
 
     shiftR    shift1, shift2, shift4;
     shiftL    shift3;
@@ -59,9 +54,7 @@ SC_MODULE(datapath) {
     comp      comp1, comp2;
     
     SC_CTOR(datapath):
-    a0reg("a0reg"), a1reg("a1reg"), breg("breg"), creg("creg"),
-    treg("treg"), ureg("ureg"),   
-    a1mux("a1mux"), a0mux("a0mux"), tmux("tmux"), umux("umux"), 
+    a0reg("a0reg"), a1reg("a1reg"), breg("breg"), creg("creg"),  
     muxbr1("mux1"), muxbr2("mux2"),	
 	shift1("shift1"), shift2("shift2"), shift3("shift3"), shift4("shift4"),
 	n1("n1", 0xffff), n2("n2", 0xffff), n3("n3", 0xffff), n4("n4", 0xffff), n5("n5", 0xffff),
@@ -73,62 +66,24 @@ SC_MODULE(datapath) {
 	// Interconnections
 	//
         a0reg.clock(clock);
-        //a0reg.reset(reset);
         a0reg.load(a0_rld);
-        a0reg.IN(a0_n);
+        a0reg.IN(P3);
         a0reg.OUT(A0_OUT);  
         
         a1reg.clock(clock);
-        //a1reg.reset(reset);
         a1reg.load(a1_rld);
-        a1reg.IN(a1_n);
+        a1reg.IN(P5);
         a1reg.OUT(A1_OUT);                  
         
         breg.clock(clock);
-        //breg.reset(reset);
         breg.load(b_rld);
         breg.IN(B_IN);
         breg.OUT(b);  
         
         creg.clock(clock);
-        //creg.reset(reset);
         creg.load(c_rld);
         creg.IN(C_IN);
-        creg.OUT(c); 
-        
-        treg.clock(clock);
-        //treg.reset(reset);
-        treg.load(t_rld);
-        treg.IN(t_n);
-        treg.OUT(t);   
-        
-        ureg.clock(clock);
-        //ureg.reset(reset);
-        ureg.load(u_rld);
-        ureg.IN(u_n);
-        ureg.OUT(u);   
-        
-        a0mux.A(M2);
-        a0mux.B(P3);
-        a0mux.OUT(a0_n);
-        a0mux.sel(a0_mux_sel);
-        
-        a1mux.A(M1);
-        a1mux.B(MUX1);
-        a1mux.C(MUX2);
-        a1mux.D(P5);
-        a1mux.OUT(a1_n);
-        a1mux.sel(a1_mux_sel);
-            
-        tmux.A(M3);
-        tmux.B(P1);
-        tmux.OUT(t_n);
-        tmux.sel(t_mux_sel);
-        
-        umux.A(M4);
-        umux.B(S3);
-        umux.OUT(u_n);
-        umux.sel(u_mux_sel);
+        creg.OUT(c);                  
         
         muxbr1.A(M1);
         muxbr1.B(P2);
