@@ -6,7 +6,6 @@
 
 void dh_hw_mult::process_hw_mult()
 {
-
   for (;;) 
   {    
     switch (hs_state)
@@ -21,7 +20,6 @@ void dh_hw_mult::process_hw_mult()
                 b.write(in_data_1.read());
                 c.write(in_data_2.read());
 			}				
-			else wait();
 			    
 			break;
 		}
@@ -39,16 +37,16 @@ void dh_hw_mult::process_hw_mult()
                 case EXE_LOAD:	
                 b_rld.write(SC_LOGIC_1);
                 c_rld.write(SC_LOGIC_1);
-                exe_state = EXE_OUT;
+                exe_state = EXE_CALC;
                     break;
                   
-                case EXE_OUT:
+                case EXE_CALC:
                 a0_rld.write(SC_LOGIC_1);                
                 a1_rld.write(SC_LOGIC_1);
-                exe_state = EXE_WAIT;      
+                exe_state = EXE_DONE;
                     break;
                 
-                case EXE_WAIT:
+                case EXE_DONE:
                 hs_state = OUTPUT;
                     break;
                     

@@ -2,6 +2,7 @@
 #include "digit.h"
 #include "dh_sw.h"
 #include "dh_hw_mult.h"
+#include "counter.h"
 
 int sc_main(int argc , char *argv[])
 {
@@ -29,6 +30,12 @@ int sc_main(int argc , char *argv[])
 	DH_HW_MULT.out_data_high (result2);	// result2 to software
 	DH_HW_MULT.hw_mult_enable (enable);	// enable hardware
 	DH_HW_MULT.hw_mult_done (done);		// hardware done
+	
+	counter clkcount("counter");
+	clkcount.clock(Clk);
+	clkcount.sig1(enable);
+	clkcount.sig2(done);
+	
 
 	sc_start();
 

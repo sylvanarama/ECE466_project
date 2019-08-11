@@ -7,7 +7,7 @@
 #define _DH_HW_MULT_H_ 1
 
 enum hs_fsm_state {WAIT_FOR_EN, EXECUTE, OUTPUT, FINISH};
-enum ctrl_fsm_state {EXE_WAIT, EXE_LOAD, EXE_OUT};
+enum ctrl_fsm_state {EXE_LOAD, EXE_CALC, EXE_DONE};
 
 SC_MODULE (dh_hw_mult)
 {
@@ -52,7 +52,7 @@ SC_MODULE (dh_hw_mult)
       DP.clock(clock);
       
       hs_state = WAIT_FOR_EN;
-      exe_state = EXE_WAIT;
+      exe_state = EXE_LOAD;
     
       SC_CTHREAD (process_hw_mult, clock.pos());
       sensitive << hw_mult_enable;

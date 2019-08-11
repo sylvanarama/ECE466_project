@@ -30,11 +30,11 @@ SC_MODULE(datapath) {
     //
     // Signals
     //
-    sc_signal<NN_DIGIT> b, c, a0, a0_n, a1, a1_n; // variables
+    sc_signal<NN_DIGIT> b, c;               // inputs
     sc_signal<NN_DIGIT> S1, S2, S3, S4;     // shifter output
     sc_signal<NN_DIGIT> N1, N2, N3, N4, N5; // AND gate outputs
     sc_signal<NN_DIGIT> M1, M2, M3, M4;     // multiplier outputs
-    sc_signal<NN_DIGIT> P1, P2, P3, P4, P5; // adder outputs 
+    sc_signal<NN_DIGIT> P1, P2, a0, P4, a1; // adder outputs 
     sc_signal<NN_DIGIT> MUX1, MUX2;         // mux outputs   
     sc_signal<sc_logic> LT1, LT2;           // comparator outputs 
     sc_signal<NN_DIGIT> k1, k2, k3;
@@ -66,12 +66,12 @@ SC_MODULE(datapath) {
 	//
         a0reg.clock(clock);
         a0reg.load(a0_rld);
-        a0reg.IN(P3);
+        a0reg.IN(a0);
         a0reg.OUT(A0_OUT);  
         
         a1reg.clock(clock);
         a1reg.load(a1_rld);
-        a1reg.IN(P5);
+        a1reg.IN(a1);
         a1reg.OUT(A1_OUT);                  
         
         breg.clock(clock);
@@ -152,7 +152,7 @@ SC_MODULE(datapath) {
 
         add3.A(M2);
         add3.B(S3);
-        add3.OUT(P3);
+        add3.OUT(a0);
 
         add4.A(MUX1);
         add4.B(k3);
@@ -160,13 +160,13 @@ SC_MODULE(datapath) {
 
         add5.A(MUX2);
         add5.B(N5);
-        add5.OUT(P5);
+        add5.OUT(a1);
 		
         comp1.A(P1);
         comp1.B(M4);
         comp1.LT(LT1);
         
-        comp2.A(P3);
+        comp2.A(a0);
         comp2.B(S3);
         comp2.LT(LT2);
         
