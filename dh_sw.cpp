@@ -388,7 +388,7 @@ NN_DIGIT c
     }
     
     // check results
-    cout << "Outputs: " << std::hex << a[1] << ", " << a[0] << std::dec << endl;
+    cout << "Outputs: " << std::hex << a[1] << ", " << a[0] << std::dec << endl << endl;
           
 }
 

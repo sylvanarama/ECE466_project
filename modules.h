@@ -204,7 +204,7 @@ SC_MODULE(reg) {
             //if (reset.read() == SC_LOGIC_1) OUT.write(0);
             //else if (load.read() == SC_LOGIC_1) OUT.write(IN.read());
             if (load.read() == SC_LOGIC_1) OUT.write(IN.read());
-	    wait();
+	        wait();
         }
     }
     
