@@ -47,9 +47,10 @@ void dh_hw_mult::process_hw_mult()
                 case EXE_LOAD:	
                 b_rld.write(SC_LOGIC_1);
                 c_rld.write(SC_LOGIC_1);
-                exe_state = EXE_MULT;
+                //exe_state = EXE_MULT;
+                exe_state = EXE_OUT;
                     break;
-
+/*
                 case EXE_MULT:
 		        // bHigh = (NN_HALF_DIGIT)HIGH_HALF(b);
                 // bLow = (NN_HALF_DIGIT)LOW_HALF(b);
@@ -99,10 +100,12 @@ void dh_hw_mult::process_hw_mult()
                 a1_rld.write(SC_LOGIC_1); 
                 exe_state = EXE_OUT;
                     break;
-                    
+  */                  
                 case EXE_OUT:
                 // a[1] += HIGH_HALF(t);             
-                //a1[2] = DP.A1_OUT.read();               
+                //a1[2] = DP.A1_OUT.read(); 
+                a0_mux_sel.write(SC_LOGIC_1);
+                a0_rld.write(SC_LOGIC_1);              
                 a1_mux_sel.write(3);  
                 a1_rld.write(SC_LOGIC_1);
                 exe_state = EXE_WAIT;      
